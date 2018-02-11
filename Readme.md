@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Сергей Иншаков](https://up.htmlacademy.ru/nodejs/1/user/59949).
-* Наставник: `Неизвестно`.
+* Наставник: [Даниил Оношко](https://up.htmlacademy.ru/nodejs/1/user/154426).
 
 ---
 
