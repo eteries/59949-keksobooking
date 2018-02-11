@@ -4,25 +4,27 @@ function prompt() {
   switch(args[0]) {
     case '--version':
       console.log('ver0.0.1');
-      process.exit()
+      break;
 
     case '--help':
       console.log('Доступные команды:\n' +
         '--help    — печатает этот текст;\n' +
         '--version — печатает версию приложения;');
-      process.exit()
+      break;
 
     case undefined:
       console.log('Привет пользователь!\n' +
         'Эта программа будет запускать сервер «DevSrv».\n' +
         'Автор: Juice.');
-      process.exit()
+      break;
 
     default:
       console.error('Неизвестная команда! "' + args[0] + '"\n' +
         'Чтобы прочитать правила использования приложения, наберите "--help".');
       process.exit(1)
   };
+
+  process.exit()
 }
 
 prompt();
