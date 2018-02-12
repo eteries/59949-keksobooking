@@ -1,0 +1,24 @@
+{
+  "name": "59949-keksobooking",
+  "version": "0.0.1",
+  "description": "Node.js educational project",
+  "main": "index.js",
+  "scripts": {
+    "test:lint": "eslint .",
+    "test": "npm run test:lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Funky-Juice/59949-keksobooking.git"
+  },
+  "author": "Сергей Иншаков",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Funky-Juice/59949-keksobooking/issues"
+  },
+  "homepage": "https://github.com/Funky-Juice/59949-keksobooking#readme",
+  "devDependencies": {
+    "eslint": "4.17.0",
+    "eslint-config-htmlacademy": "0.4.2"
+  }
+}
