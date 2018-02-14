@@ -17,6 +17,9 @@
     "url": "https://github.com/Funky-Juice/59949-keksobooking/issues"
   },
   "homepage": "https://github.com/Funky-Juice/59949-keksobooking#readme",
+  "dependencies": {
+    "colors": "1.1.2"
+  },
   "devDependencies": {
     "eslint": "4.17.0",
     "eslint-config-htmlacademy": "0.4.2"
