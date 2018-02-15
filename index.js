@@ -1,3 +1,5 @@
-const init = require(`./src/index.js`);
+// const init = require(`./src/index.js`);
+const generate = require(`./src/generate.js`);
 
-init();
+// init();
+generate.execute();
