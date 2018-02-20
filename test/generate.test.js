@@ -11,8 +11,8 @@ const Data = require(`../src/data/data.js`);
 
 describe(`Generate JSON file`, () => {
   it(`should create json file`, () => {
-    const filePath = `${__dirname}/testFile.json`;
-    return generate.execute(filePath)
+    const filePath = `test/testFile.json`;
+    return generate.execute(1, filePath, `wr`)
         .then(() => access(filePath))
         .then(() => unlink(filePath));
   });
