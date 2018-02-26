@@ -4,12 +4,13 @@ const version = require(`./version.js`);
 const license = require(`./license.js`);
 const description = require(`./description.js`);
 const generate = require(`./generate.js`);
+const server = require(`./server.js`);
 
 function prompt() {
   let args = [];
   let commands = [];
 
-  commands.push(help, author, version, license, description, generate);
+  commands.push(server, help, author, version, license, description, generate);
 
   if (process.argv.length === 2) {
     args.push(`greeting`);
