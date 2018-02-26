@@ -42,27 +42,25 @@ const indexFile = async (path, res) => {
   res.end(data);
 };
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(async (req, res) => {
   const path = `${process.cwd()}/static` + url.parse(req.url).pathname;
 
-  (async () => {
-    try {
-      await stat(path);
+  try {
+    await stat(path);
 
-      res.statusCode = 200;
-      res.statusMessage = `OK`;
+    res.statusCode = 200;
+    res.statusMessage = `OK`;
 
-      if (url.parse(req.url).pathname === `/`) {
-        await indexFile(path, res);
-      } else {
-        await readFile(path, res);
-      }
-    } catch (err) {
-      console.log(err);
-      res.writeHead(404, `Not Found`);
-      res.end();
+    if (url.parse(req.url).pathname === `/`) {
+      await indexFile(path, res);
+    } else {
+      await readFile(path, res);
     }
-  })();
+  } catch (err) {
+    console.log(err);
+    res.writeHead(404, `Not Found`);
+    res.end();
+  }
 });
 
 module.exports = {
