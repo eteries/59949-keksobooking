@@ -8,6 +8,13 @@ const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
+const getRandomDate = () => {
+  const dateNow = Math.floor(Date.now() / 1000);
+  const week = 60 * 60 * 24 * 7;
+
+  return getRandomInt((dateNow - week), dateNow);
+};
+
 const getRandomFromArr = (arr) => arr[Math.floor(arr.length * Math.random())];
 
 function getRandomValuesFromArr(arr) {
@@ -53,7 +60,8 @@ const generateEntity = () => {
     'location': {
       'x': coordinateX,
       'y': coordinateY
-    }
+    },
+    'date': getRandomDate()
   };
 };
 

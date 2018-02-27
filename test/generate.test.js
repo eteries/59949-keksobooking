@@ -338,3 +338,28 @@ describe(`JSON location object check`, () => {
     });
   });
 });
+
+describe(`JSON date field check`, () => {
+  let dataObj;
+  before(() => {
+    dataObj = generateEntity();
+  });
+
+  describe(`date field check`, () => {
+    it(`should exist`, () => {
+      assert.notEqual(typeof dataObj.date, `undefined`);
+    });
+
+    it(`should have a num value`, () => {
+      assert.equal(typeof dataObj.date, `number`);
+    });
+
+    it(`should have a value >= ${(Math.floor(Date.now() / 1000)) - (60 * 60 * 24 * 7)} and <= ${Math.floor(Date.now() / 1000)}`, () => {
+      const dateNow = Math.floor(Date.now() / 1000);
+      const week = 60 * 60 * 24 * 7;
+
+      let val = (dataObj.date >= (dateNow - week) && dataObj.date <= dateNow);
+      assert.equal(val, true);
+    });
+  });
+});
