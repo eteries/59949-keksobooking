@@ -20,5 +20,6 @@ module.exports = {
     app.listen(port || PORT, HOSTNAME, () => {
       console.log(`server started at http://${HOSTNAME}:${port || PORT}/`);
     });
-  }
+  },
+  app
 };

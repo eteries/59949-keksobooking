@@ -5,7 +5,6 @@ const util = require(`util`);
 const writeFile = util.promisify(fs.writeFile);
 const fileWriteOptions = {encoding: `utf-8`, mode: 0o644};
 
-const data = [];
 
 module.exports = {
   name: `generate`,
@@ -26,11 +25,9 @@ module.exports = {
       process.exit(1);
     }
 
-    for (let i = 0; i < objectsCount; i++) {
-      data.push(generateEntity());
-    }
+    const dataArr = generateEntity(objectsCount);
 
-    return writeFile(fileFullPath, JSON.stringify(data), fileWriteOptions)
+    return writeFile(fileFullPath, JSON.stringify(dataArr), fileWriteOptions)
         .then(() => console.log(`JSON сгенерирован!`))
         .catch((err) => console.log(err));
   }
