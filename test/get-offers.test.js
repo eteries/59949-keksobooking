@@ -11,10 +11,47 @@ describe(`GET /api/offers`, function () {
         .expect(`Content-Type`, /json/)
         .expect(200)
         .then((response) => {
-          const data = response.body;
-          assert.equal(data.total, 7);
-          assert.equal(data.data.length, 7);
-          assert.equal(Object.keys(data.data[0]).length, 4);
+          const dataObj = response.body;
+          assert.equal(dataObj.total, 7);
+          assert.equal(dataObj.data.length, 7);
+          assert.equal(Array.isArray(dataObj.data), true);
+          assert.equal(Object.keys(dataObj.data[0]).length, 4);
         });
   });
+
+  it(`unknown address should return 404`, () => {
+    return request(app)
+        .get(`/api/offerzzz`)
+        .set(`Accept`, `application/json`)
+        .expect(`Content-Type`, /html/)
+        .expect(404);
+  });
+
+});
+
+
+describe(`GET /api/offers/:date`, function () {
+
+  it(`should return offer with actual date`, () => {
+    return request(app)
+        .get(`/api/offers/1519945280`)
+        .set(`Accept`, `application/json`)
+        .expect(`Content-Type`, /json/)
+        .expect(200)
+        .then((response) => {
+          const dataObj = response.body;
+          assert.equal(dataObj.date, `1519945280`);
+          assert.equal(Object.keys(dataObj).length, 4);
+        });
+  });
+
+  // TODO fix Error: expected "Content-Type" header field
+  it(`date mismatch returns 404`, () => {
+    return request(app)
+        .get(`/api/offers/1500000000`)
+        .set(`Accept`, `application/json`)
+        .expect(`Content-Type`, /html/)
+        .expect(404);
+  });
+
 });
