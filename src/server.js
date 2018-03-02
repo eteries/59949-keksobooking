@@ -24,6 +24,7 @@ app.get(`/api/offers/:date`, (req, res) => {
 
   if (!offer) {
     res.status(404);
+    res.set(`Content-Type`, `text/html`);
     res.end();
   } else {
     res.send(offer);

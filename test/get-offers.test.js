@@ -45,7 +45,6 @@ describe(`GET /api/offers/:date`, function () {
         });
   });
 
-  // TODO fix Error: expected "Content-Type" header field
   it(`date mismatch returns 404`, () => {
     return request(app)
         .get(`/api/offers/1500000000`)
