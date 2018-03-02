@@ -1,8 +1,13 @@
 const express = require(`express`);
+const bodyParser = require(`body-parser`);
+const multer= require(`multer`);
 const {generateEntity} = require(`./generator`);
 const app = express();
 
 app.use(express.static(`static`));
+app.use(bodyParser.json());
+
+const upload = multer({storage: multer.memoryStorage()});
 
 const offers = generateEntity();
 
@@ -30,6 +35,11 @@ app.get(`/api/offers/:date`, (req, res) => {
     res.send(offer);
   }
 });
+
+app.post(`/api/offers`, upload.none(), (req, res) => {
+  res.send(req.body);
+});
+
 
 const PORT = 3000;
 const HOSTNAME = `127.0.0.1`;
