@@ -22,6 +22,11 @@ const getData = (data, skip = 0, limit = 20) => {
   };
 };
 
+const formFields = [
+  {name: `avatar`, maxCount: 1},
+  {name: `preview`, maxCount: 3}
+];
+
 
 offersRouter.get(``, async(async (req, res) => res.send(getData(offers))));
 
@@ -38,7 +43,7 @@ offersRouter.get(`/:date`, (req, res) => {
   }
 });
 
-offersRouter.post(``, upload.single(`avatar`), (req, res) => {
+offersRouter.post(``, upload.fields(formFields), (req, res) => {
   res.send(req.body);
 });
 
