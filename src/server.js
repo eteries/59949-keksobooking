@@ -1,6 +1,6 @@
 const express = require(`express`);
 const bodyParser = require(`body-parser`);
-const multer= require(`multer`);
+const multer = require(`multer`);
 const {generateEntity} = require(`./generator`);
 const app = express();
 
