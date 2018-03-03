@@ -6,8 +6,8 @@ const unlink = promisify(fs.unlink);
 const {URL} = require(`url`);
 
 const generate = require(`../src/generate.js`);
-const {generateEntity} = require(`../src/generator`);
 const Data = require(`../src/data/data.js`);
+const {generateEntity} = require(`../src/generator`);
 
 describe(`Generate JSON file`, () => {
   it(`should create json file`, () => {
@@ -19,66 +19,66 @@ describe(`Generate JSON file`, () => {
 });
 
 describe(`JSON author object check`, () => {
-  let dataObj;
+  let data;
   before(() => {
-    dataObj = generateEntity();
+    data = generateEntity()[0];
   });
 
   it(`should exist`, () => {
-    assert.notEqual(typeof dataObj.author, `undefined`);
+    assert.notEqual(typeof data.author, `undefined`);
   });
 
   describe(`author.avatar field check`, () => {
     it(`should exist`, () => {
-      assert.notEqual(typeof dataObj.author.avatar, `undefined`);
+      assert.notEqual(typeof data.author.avatar, `undefined`);
     });
 
     it(`should have a string value`, () => {
-      assert.equal(typeof dataObj.author.avatar, `string`);
+      assert.equal(typeof data.author.avatar, `string`);
     });
 
     it(`should have an http or https protocol`, () => {
-      const myURL = new URL(dataObj.author.avatar);
+      const myURL = new URL(data.author.avatar);
       const val = (myURL.protocol === `http:` || myURL.protocol === `https:`);
       assert.equal(val, true);
     });
 
     it(`should have a valid domain`, () => {
-      const myURL = new URL(dataObj.author.avatar);
+      const myURL = new URL(data.author.avatar);
       assert.equal(myURL.hostname, `robohash.org`);
     });
 
     it(`shouldn't have a blank path`, () => {
-      const myURL = new URL(dataObj.author.avatar);
+      const myURL = new URL(data.author.avatar);
       assert.notEqual(myURL.pathname, `/`);
     });
   });
 });
 
 describe(`JSON offer object check`, () => {
-  let dataObj;
+  let data;
   before(() => {
-    dataObj = generateEntity();
+    data = generateEntity()[0];
   });
 
   it(`should exist`, () => {
-    assert.notEqual(typeof dataObj.offer, `undefined`);
+    assert.notEqual(typeof data.offer, `undefined`);
   });
 
   describe(`offer.title field check`, () => {
     it(`should exist`, () => {
-      assert.notEqual(typeof dataObj.offer.title, `undefined`);
+      assert.notEqual(typeof data.offer.title, `undefined`);
     });
 
     it(`should have a string value`, () => {
-      assert.equal(typeof dataObj.offer.title, `string`);
+      assert.equal(typeof data.offer.title, `string`);
     });
 
     it(`should have one of the values: ${Data.TITLE}`, () => {
       let val = false;
 
       function comparison(elem) {
-        if (dataObj.offer.title === elem) {
+        if (data.offer.title === elem) {
           val = true;
         }
       }
@@ -89,60 +89,60 @@ describe(`JSON offer object check`, () => {
 
   describe(`offer.address field check`, () => {
     it(`should exist`, () => {
-      assert.notEqual(typeof dataObj.offer.address, `undefined`);
+      assert.notEqual(typeof data.offer.address, `undefined`);
     });
 
     it(`should have a string value`, () => {
-      assert.equal(typeof dataObj.offer.address, `string`);
+      assert.equal(typeof data.offer.address, `string`);
     });
 
     it(`should have two values`, () => {
-      let coordinates = dataObj.offer.address.split(`, `);
+      let coordinates = data.offer.address.split(`, `);
       assert.equal(coordinates.length, 2);
     });
 
-    it(`should have values dataObj.location.x, dataObj.location.y`, () => {
+    it(`should have values data.location.x, data.location.y`, () => {
       function comparison(arr) {
-        if (+arr[0] === dataObj.location.x && +arr[1] === dataObj.location.y) {
+        if (+arr[0] === data.location.x && +arr[1] === data.location.y) {
           return true;
         } else {
           return false;
         }
       }
-      let coordinates = dataObj.offer.address.split(`, `);
+      let coordinates = data.offer.address.split(`, `);
       assert.equal(comparison(coordinates), true);
     });
   });
 
   describe(`offer.price field check`, () => {
     it(`should exist`, () => {
-      assert.notEqual(typeof dataObj.offer.price, `undefined`);
+      assert.notEqual(typeof data.offer.price, `undefined`);
     });
 
     it(`should have a num value`, () => {
-      assert.equal(typeof dataObj.offer.price, `number`);
+      assert.equal(typeof data.offer.price, `number`);
     });
 
     it(`should have a value >= 1000 and <= 1 000 000`, () => {
-      let val = (dataObj.offer.price >= 1000 && dataObj.offer.price <= 1000000);
+      let val = (data.offer.price >= 1000 && data.offer.price <= 1000000);
       assert.equal(val, true);
     });
   });
 
   describe(`offer.type field check`, () => {
     it(`should exist`, () => {
-      assert.notEqual(typeof dataObj.offer.type, `undefined`);
+      assert.notEqual(typeof data.offer.type, `undefined`);
     });
 
     it(`should have a string value`, () => {
-      assert.equal(typeof dataObj.offer.type, `string`);
+      assert.equal(typeof data.offer.type, `string`);
     });
 
     it(`should have one of the values: ${Data.TYPE}`, () => {
       let val = false;
 
       function comparison(elem) {
-        if (dataObj.offer.type === elem) {
+        if (data.offer.type === elem) {
           val = true;
         }
       }
@@ -153,48 +153,48 @@ describe(`JSON offer object check`, () => {
 
   describe(`offer.rooms field check`, () => {
     it(`should exist`, () => {
-      assert.notEqual(typeof dataObj.offer.rooms, `undefined`);
+      assert.notEqual(typeof data.offer.rooms, `undefined`);
     });
 
     it(`should have a number value`, () => {
-      assert.equal(typeof dataObj.offer.rooms, `number`);
+      assert.equal(typeof data.offer.rooms, `number`);
     });
 
     it(`should have a value >= 1 and <= 5`, () => {
-      let val = (dataObj.offer.rooms >= 1 && dataObj.offer.rooms <= 5);
+      let val = (data.offer.rooms >= 1 && data.offer.rooms <= 5);
       assert.equal(val, true);
     });
   });
 
   describe(`offer.guests field check`, () => {
     it(`should exist`, () => {
-      assert.notEqual(typeof dataObj.offer.guests, `undefined`);
+      assert.notEqual(typeof data.offer.guests, `undefined`);
     });
 
     it(`should have a number value`, () => {
-      assert.equal(typeof dataObj.offer.guests, `number`);
+      assert.equal(typeof data.offer.guests, `number`);
     });
 
     it(`should have a value >= 1 and <= 15`, () => {
-      let val = (dataObj.offer.guests >= 1 && dataObj.offer.guests <= 15);
+      let val = (data.offer.guests >= 1 && data.offer.guests <= 15);
       assert.equal(val, true);
     });
   });
 
   describe(`offer.checkin field check`, () => {
     it(`should exist`, () => {
-      assert.notEqual(typeof dataObj.offer.checkin, `undefined`);
+      assert.notEqual(typeof data.offer.checkin, `undefined`);
     });
 
     it(`should have a string value`, () => {
-      assert.equal(typeof dataObj.offer.checkin, `string`);
+      assert.equal(typeof data.offer.checkin, `string`);
     });
 
     it(`should have one of the values: ${Data.TIME}`, () => {
       let val = false;
 
       function comparison(elem) {
-        if (dataObj.offer.checkin === elem) {
+        if (data.offer.checkin === elem) {
           val = true;
         }
       }
@@ -205,18 +205,18 @@ describe(`JSON offer object check`, () => {
 
   describe(`offer.checkout field check`, () => {
     it(`should exist`, () => {
-      assert.notEqual(typeof dataObj.offer.checkout, `undefined`);
+      assert.notEqual(typeof data.offer.checkout, `undefined`);
     });
 
     it(`should have a string value`, () => {
-      assert.equal(typeof dataObj.offer.checkout, `string`);
+      assert.equal(typeof data.offer.checkout, `string`);
     });
 
     it(`should have one of the values: ${Data.TIME}`, () => {
       let val = false;
 
       function comparison(elem) {
-        if (dataObj.offer.checkout === elem) {
+        if (data.offer.checkout === elem) {
           val = true;
         }
       }
@@ -227,15 +227,15 @@ describe(`JSON offer object check`, () => {
 
   describe(`offer.features field check`, () => {
     it(`should exist`, () => {
-      assert.notEqual(typeof dataObj.offer.features, `undefined`);
+      assert.notEqual(typeof data.offer.features, `undefined`);
     });
 
     it(`must be an array`, () => {
-      assert.equal(Array.isArray(dataObj.offer.features), true);
+      assert.equal(Array.isArray(data.offer.features), true);
     });
 
     it(`offer.features length should be >= 1 and <= ${Data.FEATURES.length}`, () => {
-      let val = (dataObj.offer.features.length >= 1 && dataObj.offer.features.length <= Data.FEATURES.length);
+      let val = (data.offer.features.length >= 1 && data.offer.features.length <= Data.FEATURES.length);
       assert.equal(val, true);
     });
 
@@ -243,7 +243,7 @@ describe(`JSON offer object check`, () => {
       function comparison(elem) {
         return Data.FEATURES.includes(elem);
       }
-      assert.equal(dataObj.offer.features.every(comparison), true);
+      assert.equal(data.offer.features.every(comparison), true);
     });
 
     it(`should have no duplicates`, () => {
@@ -258,82 +258,107 @@ describe(`JSON offer object check`, () => {
         }
         return false;
       }
-      assert.notEqual(hasDuplicates(dataObj.offer.features), true);
+      assert.notEqual(hasDuplicates(data.offer.features), true);
     });
   });
 
   describe(`offer.description field check`, () => {
     it(`should exist`, () => {
-      assert.notEqual(typeof dataObj.offer.description, `undefined`);
+      assert.notEqual(typeof data.offer.description, `undefined`);
     });
 
     it(`should have a string value`, () => {
-      assert.equal(typeof dataObj.offer.description, `string`);
+      assert.equal(typeof data.offer.description, `string`);
     });
 
     it(`string value must be empty`, () => {
-      assert.equal(dataObj.offer.description.length, 0);
+      assert.equal(data.offer.description.length, 0);
     });
   });
 
   describe(`offer.photos field check`, () => {
     it(`should exist`, () => {
-      assert.notEqual(typeof dataObj.offer.photos, `undefined`);
+      assert.notEqual(typeof data.offer.photos, `undefined`);
     });
 
     it(`must be an array`, () => {
-      assert.equal(Array.isArray(dataObj.offer.photos), true);
+      assert.equal(Array.isArray(data.offer.photos), true);
     });
 
     it(`should not be empty`, () => {
-      assert.notEqual(dataObj.offer.photos.length, 0);
+      assert.notEqual(data.offer.photos.length, 0);
     });
 
     it(`must contain only photos`, () => {
       function comparison(elem) {
         return Data.PHOTOS.includes(elem);
       }
-      assert.equal(dataObj.offer.photos.every(comparison), true);
+      assert.equal(data.offer.photos.every(comparison), true);
     });
   });
 });
 
 describe(`JSON location object check`, () => {
-  let dataObj;
+  let data;
   before(() => {
-    dataObj = generateEntity();
+    data = generateEntity()[0];
   });
 
   it(`should exist`, () => {
-    assert.notEqual(typeof dataObj.location, `undefined`);
+    assert.notEqual(typeof data.location, `undefined`);
   });
 
   describe(`location.x field check`, () => {
     it(`should exist`, () => {
-      assert.notEqual(typeof dataObj.location.x, `undefined`);
+      assert.notEqual(typeof data.location.x, `undefined`);
     });
 
     it(`should have a num value`, () => {
-      assert.equal(typeof dataObj.location.x, `number`);
+      assert.equal(typeof data.location.x, `number`);
     });
 
     it(`should have a value >= 300 and <= 900`, () => {
-      let val = (dataObj.location.x >= 300 && dataObj.location.x <= 900);
+      let val = (data.location.x >= 300 && data.location.x <= 900);
       assert.equal(val, true);
     });
   });
 
   describe(`location.y field check`, () => {
     it(`should exist`, () => {
-      assert.notEqual(typeof dataObj.location.y, `undefined`);
+      assert.notEqual(typeof data.location.y, `undefined`);
     });
 
     it(`should have a num value`, () => {
-      assert.equal(typeof dataObj.location.y, `number`);
+      assert.equal(typeof data.location.y, `number`);
     });
 
     it(`should have a value >= 150 and <= 500`, () => {
-      let val = (dataObj.location.y >= 150 && dataObj.location.y <= 500);
+      let val = (data.location.y >= 150 && data.location.y <= 500);
+      assert.equal(val, true);
+    });
+  });
+});
+
+describe(`JSON date field check`, () => {
+  let data;
+  before(() => {
+    data = generateEntity()[0];
+  });
+
+  describe(`date field check`, () => {
+    it(`should exist`, () => {
+      assert.notEqual(typeof data.date, `undefined`);
+    });
+
+    it(`should have a num value`, () => {
+      assert.equal(typeof data.date, `number`);
+    });
+
+    it(`should have a value >= ${(Math.floor(Date.now() / 1000)) - (60 * 60 * 24 * 7)} and <= ${Math.floor(Date.now() / 1000)}`, () => {
+      const dateNow = Math.floor(Date.now() / 1000);
+      const week = 60 * 60 * 24 * 7;
+
+      let val = (data.date >= (dateNow - week) && data.date <= dateNow);
       assert.equal(val, true);
     });
   });
