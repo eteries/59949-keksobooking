@@ -5,9 +5,9 @@ const access = promisify(fs.access);
 const unlink = promisify(fs.unlink);
 const {URL} = require(`url`);
 
-const generate = require(`../src/generate.js`);
+const generate = require(`../src/cli/generate.js`);
 const Data = require(`../src/data/data.js`);
-const {generateEntity} = require(`../src/generator`);
+const {generateEntity} = require(`../src/generator/generator`);
 
 describe(`Generate JSON file`, () => {
   it(`should create json file`, () => {
@@ -103,11 +103,7 @@ describe(`JSON offer object check`, () => {
 
     it(`should have values data.location.x, data.location.y`, () => {
       function comparison(arr) {
-        if (+arr[0] === data.location.x && +arr[1] === data.location.y) {
-          return true;
-        } else {
-          return false;
-        }
+        return (+arr[0] === data.location.x && +arr[1] === data.location.y);
       }
       let coordinates = data.offer.address.split(`, `);
       assert.equal(comparison(coordinates), true);

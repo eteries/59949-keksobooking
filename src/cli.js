@@ -1,10 +1,10 @@
-const help = require(`./help.js`);
-const author = require(`./author.js`);
-const version = require(`./version.js`);
-const license = require(`./license.js`);
-const description = require(`./description.js`);
-const generate = require(`./generate.js`);
-const server = require(`./server.js`);
+const help = require(`./cli/help.js`);
+const author = require(`./cli/author.js`);
+const version = require(`./cli/version.js`);
+const license = require(`./cli/license.js`);
+const description = require(`./cli/description.js`);
+const generate = require(`./cli/generate.js`);
+const server = require(`./server/server.js`);
 
 function prompt() {
   let args = [];
