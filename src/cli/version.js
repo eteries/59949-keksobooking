@@ -1,4 +1,4 @@
-const packageVer = require(`../package.json`).version;
+const packageVer = require(`../../package.json`).version;
 require(`colors`);
 
 module.exports = {

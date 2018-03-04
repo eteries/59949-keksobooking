@@ -1,7 +1,7 @@
 const {Router} = require(`express`);
 const bodyParser = require(`body-parser`);
 const multer = require(`multer`);
-const {generateEntity} = require(`../generator`);
+const {generateEntity} = require(`../../generator/generator`);
 
 const upload = multer({storage: multer.memoryStorage()});
 

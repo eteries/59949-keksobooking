@@ -1,3 +1,3 @@
-const init = require(`./src/index.js`);
+const init = require(`./src/cli.js`);
 
 init();
