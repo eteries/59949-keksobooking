@@ -1,6 +1,6 @@
 const request = require(`supertest`);
 const assert = require(`assert`);
-const {app} = require(`../src/server/server`);
+const {app} = require(`../src/server`);
 
 describe(`GET /api/offers`, function () {
 

@@ -1,5 +1,5 @@
-const Data = require(`../data/data`);
-const util = require(`../../util/util`);
+const Data = require(`./data/data.js`);
+const util = require(`../util/util`);
 
 
 const dataTemplate = () => {
