@@ -1,6 +1,6 @@
 const request = require(`supertest`);
 const {app} = require(`../src/server/server`);
-const data = require(`../src/data/data`);
+const Data = require(`../src/data/data`);
 
 
 describe(`POST /api/offers`, function () {
@@ -195,7 +195,7 @@ describe(`POST /api/offers`, function () {
         .expect(400, [{
           fieldName: `type`,
           fieldValue: ``,
-          errorMessage: `should contain one of this values: ${data.TYPE}`
+          errorMessage: `should contain one of this values: ${Data.TYPE}`
         }]);
   });
 
@@ -506,7 +506,7 @@ describe(`POST /api/offers`, function () {
         .expect(400, [{
           fieldName: `features`,
           fieldValue: `qwerty`,
-          errorMessage: `should contain one of this values: ${data.FEATURES}`
+          errorMessage: `should contain one of this values: ${Data.FEATURES}`
         }]);
   });
 

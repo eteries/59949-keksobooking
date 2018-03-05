@@ -2,6 +2,7 @@ const {Router} = require(`express`);
 const bodyParser = require(`body-parser`);
 const multer = require(`multer`);
 const {generateEntity} = require(`../../generator/generator`);
+const schema = require(`./validation`);
 
 const upload = multer({storage: multer.memoryStorage()});
 
@@ -44,7 +45,30 @@ offersRouter.get(`/:date`, (req, res) => {
 });
 
 offersRouter.post(``, upload.fields(formFields), (req, res) => {
-  res.send(req.body);
+  const source = {
+    name: req.body.name,
+    title: req.body.title,
+    type: req.body.type,
+    price: req.body.price,
+    address: req.body.address,
+    timein: req.body.timein,
+    timeout: req.body.timeout,
+    rooms: req.body.rooms,
+    guests: req.body.guests,
+    features: req.body.features,
+    description: req.body.description
+  };
+
+  schema.validate(source, function (err, response) {
+    if (err) {
+      throw err;
+    } else if (response) {
+      throw response.errors;
+    }
+    console.log(`everything is OK!`);
+    return res.send(source);
+  });
 });
+
 
 module.exports = offersRouter;
