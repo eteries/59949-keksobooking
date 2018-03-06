@@ -2,7 +2,8 @@ const {Router} = require(`express`);
 const bodyParser = require(`body-parser`);
 const multer = require(`multer`);
 const {generateEntity} = require(`../../generator/generator`);
-const schema = require(`./validation`);
+const ValidationError = require(`../validation-error`);
+const {schema, cb} = require(`./validation`);
 
 const upload = multer({storage: multer.memoryStorage()});
 
@@ -49,25 +50,29 @@ offersRouter.post(``, upload.fields(formFields), (req, res) => {
     name: req.body.name,
     title: req.body.title,
     type: req.body.type,
-    price: req.body.price,
+    price: parseInt(req.body.price, 10) || null,
     address: req.body.address,
     timein: req.body.timein,
     timeout: req.body.timeout,
-    rooms: req.body.rooms,
-    guests: req.body.guests,
+    rooms: parseInt(req.body.rooms, 10) || null,
+    guests: parseInt(req.body.guests, 10) || null,
     features: req.body.features,
     description: req.body.description
   };
 
-  schema.validate(source, function (err, response) {
-    if (err) {
-      throw err;
-    } else if (response) {
-      throw response.errors;
-    }
-    console.log(`everything is OK!`);
-    return res.send(source);
-  });
+  schema.validate(source, cb);
+
+  return res.send(source);
+});
+
+
+offersRouter.use((exception, req, res, next) => {
+  let data = exception;
+  if (exception instanceof ValidationError) {
+    data = exception.errors;
+  }
+  res.status(400).send(data);
+  next();
 });
 
 
