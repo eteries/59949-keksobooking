@@ -3,7 +3,7 @@ const bodyParser = require(`body-parser`);
 const multer = require(`multer`);
 const {generateEntity} = require(`../../generator/generator`);
 const ValidationError = require(`../validation-error`);
-const {schema, cb} = require(`./validation`);
+const {schema, callback} = require(`./validation`);
 
 const upload = multer({storage: multer.memoryStorage()});
 
@@ -46,6 +46,7 @@ offersRouter.get(`/:date`, (req, res) => {
 });
 
 offersRouter.post(``, upload.fields(formFields), (req, res) => {
+
   const source = {
     name: req.body.name,
     title: req.body.title,
@@ -57,10 +58,12 @@ offersRouter.post(``, upload.fields(formFields), (req, res) => {
     rooms: parseInt(req.body.rooms, 10) || null,
     guests: parseInt(req.body.guests, 10) || null,
     features: req.body.features,
-    description: req.body.description
+    description: req.body.description,
+    avatar: req.files.avatar,
+    preview: req.files.preview
   };
 
-  schema.validate(source, cb);
+  schema.validate(source, callback);
 
   return res.send(source);
 });
