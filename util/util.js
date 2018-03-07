@@ -35,11 +35,24 @@ const getShuffledArray = (arr) => {
   return newArr;
 };
 
+const getFilteredData = (data, skip = 0, limit = 20) => {
+  return {
+    data: data.slice(skip, skip + limit),
+    skip,
+    limit,
+    total: data.length
+  };
+};
+
+const async = (fn) => (req, res, next) => fn(req, res, next).catch(next);
+
 module.exports = {
   getRandomPic,
   getRandomInt,
   getRandomDate,
   getRandomFromArr,
   getRandomValuesFromArr,
-  getShuffledArray
+  getShuffledArray,
+  getFilteredData,
+  async
 };

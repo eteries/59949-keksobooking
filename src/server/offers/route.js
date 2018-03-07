@@ -4,6 +4,7 @@ const multer = require(`multer`);
 const {generateEntity} = require(`../../generator/generator`);
 const ValidationError = require(`../validation-error`);
 const {schema, callback} = require(`./validation`);
+const {getFilteredData, async} = require(`../../../util/util`);
 
 const upload = multer({storage: multer.memoryStorage()});
 
@@ -13,24 +14,7 @@ const offersRouter = new Router();
 
 offersRouter.use(bodyParser.json());
 
-const async = (fn) => (req, res, next) => fn(req, res, next).catch(next);
-
-const getData = (data, skip = 0, limit = 20) => {
-  return {
-    data: data.slice(skip, skip + limit),
-    skip,
-    limit,
-    total: data.length
-  };
-};
-
-const formFields = [
-  {name: `avatar`, maxCount: 1},
-  {name: `preview`, maxCount: 3}
-];
-
-
-offersRouter.get(``, async(async (req, res) => res.send(getData(offers))));
+offersRouter.get(``, async(async (req, res) => res.send(getFilteredData(offers))));
 
 offersRouter.get(`/:date`, (req, res) => {
   const reqDate = req.params[`date`];
@@ -45,18 +29,23 @@ offersRouter.get(`/:date`, (req, res) => {
   }
 });
 
+const formFields = [
+  {name: `avatar`, maxCount: 1},
+  {name: `preview`, maxCount: 3}
+];
+
 offersRouter.post(``, upload.fields(formFields), (req, res) => {
 
   const source = {
     name: req.body.name,
     title: req.body.title,
     type: req.body.type,
-    price: parseInt(req.body.price, 10) || null,
+    price: req.body.price,
     address: req.body.address,
     timein: req.body.timein,
     timeout: req.body.timeout,
-    rooms: parseInt(req.body.rooms, 10) || null,
-    guests: parseInt(req.body.guests, 10) || null,
+    rooms: req.body.rooms,
+    guests: req.body.guests,
     features: req.body.features,
     description: req.body.description,
     avatar: req.files.avatar,
@@ -64,6 +53,17 @@ offersRouter.post(``, upload.fields(formFields), (req, res) => {
   };
 
   schema.validate(source, callback);
+
+  if (source.avatar) {
+    source.avatar.map((it) => {
+      delete it.buffer;
+    });
+  }
+  if (source.preview) {
+    source.preview.map((it) => {
+      delete it.buffer;
+    });
+  }
 
   return res.send(source);
 });
