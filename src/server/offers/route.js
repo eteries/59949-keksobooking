@@ -4,7 +4,8 @@ const multer = require(`multer`);
 const {generateEntity} = require(`../../generator/generator`);
 const ValidationError = require(`../validation-error`);
 const {schema, callback} = require(`./validation`);
-const {getFilteredData, async} = require(`../../../util/util`);
+const {getFilteredData, async, nameCheck, stringToInt, filterValues} = require(`../../../util/util`);
+const Data = require(`../../data/data`);
 
 const upload = multer({storage: multer.memoryStorage()});
 
@@ -34,19 +35,20 @@ const formFields = [
   {name: `preview`, maxCount: 3}
 ];
 
+
 offersRouter.post(``, upload.fields(formFields), (req, res) => {
 
   const source = {
-    name: req.body.name,
+    name: nameCheck(req.body.name, Data.NAMES),
     title: req.body.title,
     type: req.body.type,
-    price: req.body.price,
+    price: stringToInt(req.body.price),
     address: req.body.address,
     timein: req.body.timein,
     timeout: req.body.timeout,
-    rooms: req.body.rooms,
-    guests: req.body.guests,
-    features: req.body.features,
+    rooms: stringToInt(req.body.rooms),
+    guests: stringToInt(req.body.guests),
+    features: filterValues(req.body.features),
     description: req.body.description,
     avatar: req.files.avatar,
     preview: req.files.preview

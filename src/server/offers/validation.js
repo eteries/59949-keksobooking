@@ -29,29 +29,35 @@ const callback = function (err, response) {
 const descriptor = {
   type: `object`,
   fields: {
+    name: {type: `string`, required: true, min: 3, max: 20},
     title: {type: `string`, required: true, min: 30, max: 140},
     type: {type: `enum`, required: true, list: Data.TYPE},
     address: {type: `string`, required: true, min: 5, max: 100},
     description: {type: `string`, required: false, min: 5, max: 100},
-    timein: {type: `string`, required: true, pattern: /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/, message: `time format should be HH:mm`},
-    timeout: {type: `string`, required: true, pattern: /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/, message: `time format should be HH:mm`},
-    price: {type: `number`, required: true, min: 1, max: 100000,
-      transform(value) {
-        return (Number.isNaN(parseInt(value, 10)) ? value : parseInt(value, 10));
-      }
+    timein: {
+      type: `string`,
+      required: true,
+      pattern: /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/,
+      message: `time format should be HH:mm`
     },
-    rooms: {type: `number`, required: true, min: 1, max: 1000,
-      transform(value) {
-        return (Number.isNaN(parseInt(value, 10)) ? value : parseInt(value, 10));
-      }
+    timeout: {
+      type: `string`,
+      required: true,
+      pattern: /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/,
+      message: `time format should be HH:mm`
     },
-    guests: {type: `number`, required: true, min: 1, max: 10,
-      transform(value) {
-        return (Number.isNaN(parseInt(value, 10)) ? value : parseInt(value, 10));
+    price: {type: `number`, required: true, min: 1, max: 100000},
+    rooms: {type: `number`, required: true, min: 1, max: 1000},
+    guests: {type: `number`, required: true, min: 1, max: 10},
+    features(cb) {
+      if (this.value.length) {
+        const result = this.value.every((elem) => Data.FEATURES.includes(elem));
+        if (!result) {
+          this.raise(`should contain only: ${Data.FEATURES}`);
+        }
       }
+      cb();
     },
-    name: {type: `enum`, required: false, list: Data.NAMES},
-    features: {type: `enum`, required: false, list: Data.FEATURES},
     avatar: {type: `isImage`, required: false},
     preview: {type: `isImage`, required: false}
   }
