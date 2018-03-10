@@ -4,7 +4,7 @@ const multer = require(`multer`);
 const {generateEntity} = require(`../../generator/generator`);
 const ValidationError = require(`../validation-error`);
 const {schema, callback} = require(`./validation`);
-const {getFilteredData, async, nameCheck, stringToInt, filterValues} = require(`../../../util/util`);
+const {getFilteredData, nameCheck, stringToInt, filterValues} = require(`../../../util/util`);
 const Data = require(`../../data/data`);
 
 const upload = multer({storage: multer.memoryStorage()});
@@ -15,7 +15,19 @@ const offersRouter = new Router();
 
 offersRouter.use(bodyParser.json());
 
-offersRouter.get(``, async(async (req, res) => res.send(getFilteredData(offers))));
+offersRouter.get(``, (req, res) => {
+  let skip = 0;
+  let limit = 20;
+
+  if (req.query.skip) {
+    skip = +req.query.skip;
+  }
+  if (req.query.skip) {
+    limit = +req.query.limit;
+  }
+
+  res.send(getFilteredData(offers, skip, limit));
+});
 
 offersRouter.get(`/:date`, (req, res) => {
   const reqDate = req.params[`date`];

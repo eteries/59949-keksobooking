@@ -120,7 +120,7 @@ describe(`POST /api/offers`, function () {
 
   describe(`"title" field`, function () {
     // infinite timeout for files upload
-    this.timeout(0);
+    this.timeout(0); // eslint-disable-line
 
     it(`should fail if field is missing`, function () {
       return request(app)
@@ -194,7 +194,7 @@ describe(`POST /api/offers`, function () {
   });
 
   describe(`"type" field`, function () {
-    this.timeout(0);
+    this.timeout(0); //eslint-disable-line
 
     it(`should fail if field is missing`, function () {
       return request(app)

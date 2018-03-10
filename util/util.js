@@ -1,5 +1,3 @@
-const async = (fn) => (req, res, next) => fn(req, res, next).catch(next);
-
 const getRandomPic = () => {
   return `https://robohash.org/` + Math.random().toString(36).substring(2, 9);
 };
@@ -36,7 +34,7 @@ const getShuffledArray = (arr) => {
   return newArr;
 };
 
-const getFilteredData = (data, skip = 0, limit = 20) => {
+const getFilteredData = (data, skip, limit) => {
   return {
     data: data.slice(skip, skip + limit),
     skip,
@@ -69,7 +67,6 @@ const nameCheck = ((value, namesArr) => {
 
 
 module.exports = {
-  async,
   getRandomPic,
   getRandomInt,
   getRandomDate,
