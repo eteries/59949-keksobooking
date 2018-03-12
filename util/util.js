@@ -43,7 +43,7 @@ const getFilteredData = (data, skip, limit) => {
   };
 };
 
-const filterValues = ((value) => {
+const filterValues = (value) => {
   let newArr = [];
 
   if (Array.isArray(value)) {
@@ -52,7 +52,7 @@ const filterValues = ((value) => {
     newArr.push(value);
   }
   return newArr;
-});
+};
 
 const stringToInt = ((value) => {
   return (Number.isNaN(parseInt(value, 10)) ? value : parseInt(value, 10));

@@ -20,10 +20,10 @@ offersRouter.get(``, (req, res) => {
   let limit = 20;
 
   if (req.query.skip) {
-    skip = +req.query.skip;
+    skip = parseInt(req.query.skip, 10);
   }
   if (req.query.skip) {
-    limit = +req.query.limit;
+    limit = parseInt(req.query.limit, 10);
   }
 
   res.send(getFilteredData(offers, skip, limit));
