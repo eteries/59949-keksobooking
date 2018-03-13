@@ -2,6 +2,10 @@ const {Router} = require(`express`);
 const bodyParser = require(`body-parser`);
 const multer = require(`multer`);
 const {generateEntity} = require(`../../generator/generator`);
+const ValidationError = require(`../validation-error`);
+const {schema, callback} = require(`./validation`);
+const {getFilteredData, nameCheck, stringToInt, filterValues} = require(`../../../util/util`);
+const Data = require(`../../data/data`);
 
 const upload = multer({storage: multer.memoryStorage()});
 
@@ -11,24 +15,19 @@ const offersRouter = new Router();
 
 offersRouter.use(bodyParser.json());
 
-const async = (fn) => (req, res, next) => fn(req, res, next).catch(next);
+offersRouter.get(``, (req, res) => {
+  let skip = 0;
+  let limit = 20;
 
-const getData = (data, skip = 0, limit = 20) => {
-  return {
-    data: data.slice(skip, skip + limit),
-    skip,
-    limit,
-    total: data.length
-  };
-};
+  if (req.query.skip) {
+    skip = parseInt(req.query.skip, 10);
+  }
+  if (req.query.skip) {
+    limit = parseInt(req.query.limit, 10);
+  }
 
-const formFields = [
-  {name: `avatar`, maxCount: 1},
-  {name: `preview`, maxCount: 3}
-];
-
-
-offersRouter.get(``, async(async (req, res) => res.send(getData(offers))));
+  res.send(getFilteredData(offers, skip, limit));
+});
 
 offersRouter.get(`/:date`, (req, res) => {
   const reqDate = req.params[`date`];
@@ -43,8 +42,55 @@ offersRouter.get(`/:date`, (req, res) => {
   }
 });
 
+const formFields = [
+  {name: `avatar`, maxCount: 1},
+  {name: `preview`, maxCount: 3}
+];
+
+
 offersRouter.post(``, upload.fields(formFields), (req, res) => {
-  res.send(req.body);
+
+  const source = {
+    name: nameCheck(req.body.name, Data.NAMES),
+    title: req.body.title,
+    type: req.body.type,
+    price: stringToInt(req.body.price),
+    address: req.body.address,
+    timein: req.body.timein,
+    timeout: req.body.timeout,
+    rooms: stringToInt(req.body.rooms),
+    guests: stringToInt(req.body.guests),
+    features: filterValues(req.body.features),
+    description: req.body.description,
+    avatar: req.files.avatar,
+    preview: req.files.preview
+  };
+
+  schema.validate(source, callback);
+
+  if (source.avatar) {
+    source.avatar.map((it) => {
+      delete it.buffer;
+    });
+  }
+  if (source.preview) {
+    source.preview.map((it) => {
+      delete it.buffer;
+    });
+  }
+
+  return res.send(source);
 });
+
+
+offersRouter.use((exception, req, res, next) => {
+  let data = exception;
+  if (exception instanceof ValidationError) {
+    data = exception.errors;
+  }
+  res.status(400).send(data);
+  next();
+});
+
 
 module.exports = offersRouter;

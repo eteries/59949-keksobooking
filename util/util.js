@@ -1,4 +1,3 @@
-
 const getRandomPic = () => {
   return `https://robohash.org/` + Math.random().toString(36).substring(2, 9);
 };
@@ -14,7 +13,9 @@ const getRandomDate = () => {
   return getRandomInt((dateNow - week), dateNow);
 };
 
-const getRandomFromArr = (arr) => arr[Math.floor(arr.length * Math.random())];
+const getRandomFromArr = (arr) => {
+  return arr[Math.floor(arr.length * Math.random())];
+};
 
 const getRandomValuesFromArr = (arr) => {
   let newArr = [];
@@ -35,11 +36,47 @@ const getShuffledArray = (arr) => {
   return newArr;
 };
 
+const getFilteredData = (data, skip, limit) => {
+  return {
+    data: data.slice(skip, skip + limit),
+    skip,
+    limit,
+    total: data.length
+  };
+};
+
+const filterValues = (value) => {
+  let newArr = [];
+
+  if (Array.isArray(value)) {
+    newArr = [...new Set(value)];
+  } else if (value) {
+    newArr.push(value);
+  }
+  return newArr;
+};
+
+const stringToInt = (value) => {
+  return (Number.isNaN(parseInt(value, 10)) ? value : parseInt(value, 10));
+};
+
+const nameCheck = (value, namesArr) => {
+  if (!value || value.length === 0) {
+    value = getRandomFromArr(namesArr);
+  }
+  return value;
+};
+
+
 module.exports = {
   getRandomPic,
   getRandomInt,
   getRandomDate,
   getRandomFromArr,
   getRandomValuesFromArr,
-  getShuffledArray
+  getShuffledArray,
+  getFilteredData,
+  filterValues,
+  stringToInt,
+  nameCheck
 };

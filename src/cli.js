@@ -6,7 +6,7 @@ const description = require(`./cli/description.js`);
 const generate = require(`./cli/generate.js`);
 const server = require(`./server/server.js`);
 
-function prompt() {
+const prompt = () => {
   let args = [];
   let commands = [];
 
@@ -33,6 +33,6 @@ function prompt() {
       `Чтобы прочитать правила использования приложения, наберите «--help».`);
     process.exit(1);
   }
-}
+};
 
 module.exports = prompt;

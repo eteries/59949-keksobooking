@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Funky-Juice/59949-keksobooking#readme",
   "dependencies": {
+    "async-validate": "1.0.1",
     "body-parser": "1.18.2",
     "colors": "1.1.2",
     "express": "4.16.2",
