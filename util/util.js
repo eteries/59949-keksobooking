@@ -56,16 +56,16 @@ const filterValues = (value) => {
   return newArr;
 };
 
-const stringToInt = ((value) => {
+const stringToInt = (value) => {
   return (Number.isNaN(parseInt(value, 10)) ? value : parseInt(value, 10));
-});
+};
 
-const nameCheck = ((value, namesArr) => {
+const nameCheck = (value, namesArr) => {
   if (!value || value.length === 0) {
     value = getRandomFromArr(namesArr);
   }
   return value;
-});
+};
 
 
 module.exports = {

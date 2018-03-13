@@ -1,6 +1,6 @@
 module.exports = function () {
 
-  this.main.isImage = function isImage(cb) {
+  this.main.isImage = function (cb) {
     if (this.value) {
 
       this.value.map((obj) => {
