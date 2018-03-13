@@ -13,7 +13,9 @@ const getRandomDate = () => {
   return getRandomInt((dateNow - week), dateNow);
 };
 
-const getRandomFromArr = (arr) => arr[Math.floor(arr.length * Math.random())];
+const getRandomFromArr = (arr) => {
+  return arr[Math.floor(arr.length * Math.random())];
+};
 
 const getRandomValuesFromArr = (arr) => {
   let newArr = [];

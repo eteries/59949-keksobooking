@@ -7,7 +7,7 @@ const ValidationError = require(`../validation-error`);
 Schema.plugin([require(`./assertion`)]);
 
 
-const callback = function (err, response) {
+const callback = (err, response) => {
   if (err) {
     throw err;
   } else if (response) {
